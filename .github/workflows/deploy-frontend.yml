@@ -9,7 +9,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       pages: write
       id-token: write
 
@@ -35,13 +35,43 @@ jobs:
         # that returns index.html.
         run: cp -v Frontend/dist/index.html Frontend/dist/404.html
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v3
+      - name: Deploy to gh-pages branch (manual git push)
+        # Avoid using actions that may pull deprecated dependencies. Instead
+        # push the built `Frontend/dist` contents to the gh-pages branch.
+        env:
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          echo "Deploying to gh-pages branch"
+          # Prepare a temporary directory and clone the gh-pages branch (or create it)
+          TMPDIR=$(mktemp -d)
+          echo "Using temp dir: $TMPDIR"
+          cd $TMPDIR
+          # Try to fetch existing gh-pages branch; if it doesn't exist, create an empty repo
+          if git ls-remote --exit-code --heads https://x-access-token:${TOKEN}@github.com/${REPO} gh-pages; then
+            git clone --depth=1 --branch=gh-pages https://x-access-token:${TOKEN}@github.com/${REPO} .
+          else
+            git init .
+            git remote add origin https://x-access-token:${TOKEN}@github.com/${REPO}
+            git checkout --orphan gh-pages
+          fi
 
-      - name: Upload artifact for deployment
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: Frontend/dist
+          # Clean current contents
+          git rm -rf . || true
 
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2
+          # Copy built site into temp dir
+          cp -a "${{ github.workspace }}/Frontend/dist/." .
+
+          # Commit and push
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add --all
+          if git diff --cached --quiet; then
+            echo "No changes to deploy"
+          else
+            git commit -m "Deploy frontend to gh-pages: ${SHA}"
+            git push --force https://x-access-token:${TOKEN}@github.com/${REPO} HEAD:gh-pages
+          fi
+          echo "Deployment finished"
