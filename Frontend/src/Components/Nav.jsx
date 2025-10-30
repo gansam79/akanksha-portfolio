@@ -27,13 +27,13 @@ export default function Navbar() {
           }`}
         >
           {[
-            { path: "/", label: "Home" },
-            { path: "/about", label: "About Me" },
-            { path: "/skills", label: "Skills" },
-            { path: "/projects", label: "Projects" },
-            { path: "/experience", label: "Experience" },
-            { path: "/certifications", label: "Certifications" },
-            { path: "/contact", label: "Contact" }
+            { path: "", label: "Home" },
+            { path: "about", label: "About Me" },
+            { path: "skills", label: "Skills" },
+            { path: "projects", label: "Projects" },
+            { path: "experience", label: "Experience" },
+            { path: "certifications", label: "Certifications" },
+            { path: "contact", label: "Contact" }
           ].map((item) => (
             <li key={item.path}>
               <Link
