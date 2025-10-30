@@ -21,8 +21,12 @@ import ExpiTable from './API/ExpiTabe'
 
 // Wrapper to use hooks outside Router
 function AppWrapper() {
+  // Use Vite's BASE_URL so BrowserRouter works correctly when the app
+  // is deployed to a sub-path (GitHub Pages project page).
+  // import.meta.env.BASE_URL will be '/akanksha-portfolio/' as set in vite.config.js
+  const basename = import.meta.env.BASE_URL || '/';
   return (
-    <Router>
+    <Router basename={basename}>
       <App />
     </Router>
   );
