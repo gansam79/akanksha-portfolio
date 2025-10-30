@@ -23,6 +23,13 @@ jobs:
           npm ci
           npm run build
 
+      # Ensure client-side routing works on GitHub Pages by providing a 404.html
+      # that serves the same index.html so refreshes and direct links work.
+      - name: Add SPA fallback for GitHub Pages
+        working-directory: ./Frontend
+        run: |
+          cp dist/index.html dist/404.html
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
