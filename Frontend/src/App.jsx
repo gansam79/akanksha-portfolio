@@ -19,10 +19,11 @@ import ProjectUpdate from './API/ProjectUpdate'
 import ProjectTable from './API/ProjectTable'
 import ExpiTable from './API/ExpiTabe'
 
-// Wrapper to use hooks outside Router
+// Wrapper to set the router basename so routes work when served from a subpath
+// Vite exposes the base as import.meta.env.BASE_URL (set in vite.config.js)
 function AppWrapper() {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <App />
     </Router>
   );
