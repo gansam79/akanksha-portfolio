@@ -22,8 +22,11 @@ import ExpiTable from './API/ExpiTabe'
 // Wrapper to set the router basename so routes work when served from a subpath
 // Vite exposes the base as import.meta.env.BASE_URL (set in vite.config.js)
 function AppWrapper() {
+  // Use Vite's BASE_URL when available; fall back to the project path so
+  // routing still works even if env isn't populated in some environments.
+  const basename = import.meta.env.BASE_URL || '/akanksha-portfolio/';
   return (
-    <Router basename={import.meta.env.BASE_URL}>
+    <Router basename={basename}>
       <App />
     </Router>
   );
