@@ -10,5 +10,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
-  base: './', // ✅ important for correct paths on Vercel
+  // For GitHub Pages (project site) the base should be the repo name.
+  // Example: if repository is `gansam79/akanksha-portfolio` the base is '/akanksha-portfolio/'.
+  base: '/akanksha-portfolio/',
 })
