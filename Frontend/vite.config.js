@@ -10,5 +10,8 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
-  base: './', // ✅ important for correct paths on Vercel
+  // When deploying to GitHub Pages as a project page, set the base to the repo name
+  // so assets and router paths resolve correctly. Change this if your repo name
+  // changes.
+  base: '/akanksha-portfolio/',
 })
