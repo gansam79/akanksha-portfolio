@@ -22,9 +22,10 @@ import ExpiTable from './API/ExpiTabe'
 // Wrapper to set the router basename so routes work when served from a subpath
 // Vite exposes the base as import.meta.env.BASE_URL (set in vite.config.js)
 function AppWrapper() {
-  // Use Vite's BASE_URL when available; fall back to the project path so
-  // routing still works even if env isn't populated in some environments.
-  const basename = import.meta.env.BASE_URL || '/akanksha-portfolio/';
+  // Hardcode the basename to ensure GitHub Pages routing works correctly
+  // For GitHub Pages project sites, the basename must be the repository name
+  const basename = '/akanksha-portfolio/';
+  console.log('Router basename:', basename); // Debug log
   return (
     <Router basename={basename}>
       <App />
@@ -52,8 +53,8 @@ function App() {
         <Route path='/exiupdate' element={< ExpiUpdate />} />
         <Route path='/exitable' element={< ExpiTable />} />
         <Route path='/projectadd' element={< ProjectAdd />} />
-        <Route path='/projectupdate' element={< ProjectUpdate/>} />
-        <Route path='/projecttable' element={< ProjectTable/>} />
+        <Route path='/projectupdate' element={< ProjectUpdate />} />
+        <Route path='/projecttable' element={< ProjectTable />} />
 
       </Routes>
       {!hideLayout && <Footer />}
