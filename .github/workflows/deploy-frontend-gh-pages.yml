@@ -1,38 +1,16 @@
-name: Deploy Frontend to GitHub Pages
+name: Deploy Frontend to GitHub Pages (disabled)
+
+# This workflow was disabled from running on push because it used an older
+# deployment approach (peaceiris/actions-gh-pages) that can pull in a
+# deprecated dependency. The repository now uses `.github/workflows/deploy-frontend.yml`
+# which leverages the official Pages Actions. Keep this file for reference only.
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch: # manual trigger only
 
 jobs:
-  build-and-deploy:
+  noop:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Use Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install and build Frontend
-        working-directory: ./Frontend
-        run: |
-          npm ci
-          npm run build
-
-      # Ensure client-side routing works on GitHub Pages by providing a 404.html
-      # that serves the same index.html so refreshes and direct links work.
-      - name: Add SPA fallback for GitHub Pages
-        working-directory: ./Frontend
-        run: |
-          cp dist/index.html dist/404.html
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./Frontend/dist
-          publish_branch: gh-pages
+      - name: No-op
+        run: echo "This workflow is intentionally disabled. Use deploy-frontend.yml instead."
