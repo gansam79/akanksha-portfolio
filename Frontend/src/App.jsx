@@ -13,7 +13,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import GetInfo from './API/Getinfo'
 import ExpiAdd from './API/ExpiAdd'
 import ExpiUpdate from './API/ExpiUpdate'
-import ProjectAdd from './API/ProjectAdd'
+import ProjectAdd from './API/Projectadd'
 import ProjectUpdate from './API/ProjectUpdate'
 import ProjectTable from './API/ProjectTable'
 import ExpiTable from './API/ExpiTabe'
@@ -51,8 +51,8 @@ function App() {
         <Route path='/exiupdate' element={< ExpiUpdate />} />
         <Route path='/exitable' element={< ExpiTable />} />
         <Route path='/projectadd' element={< ProjectAdd />} />
-        <Route path='/projectupdate' element={< ProjectUpdate/>} />
-        <Route path='/projecttable' element={< ProjectTable/>} />
+        <Route path='/projectupdate' element={< ProjectUpdate />} />
+        <Route path='/projecttable' element={< ProjectTable />} />
 
       </Routes>
       {!hideLayout && <Footer />}
